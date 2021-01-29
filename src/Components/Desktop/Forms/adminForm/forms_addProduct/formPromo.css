@@ -1,0 +1,41 @@
+
+.FormPromo__discount{
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.FormPromo__checkbox-wrapper{
+  display: flex;
+  align-items: center;
+}
+.FormPromo__input-wrapper{
+  display: flex;
+  align-items: center;
+}
+.FormPromo__input-wrapper input{
+  width: 56px;
+  text-align: center;
+}
+.admin-icon__percent{
+  /* background: var(--sea); */
+  width: 56px;
+  height: 56px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.admin-icon__percent svg{
+  stroke: var(--sea);
+  stroke-width: 2px;
+}
+.FormPromo__discount h5{
+  font-size: 20px;
+  line-height: 23px;
+  font-weight: 600;
+  color: var(--gray);
+}
+.FormPromo__choice{
+  display: flex;
+}

@@ -1,0 +1,53 @@
+.inputText{
+  position: relative;
+}
+.textInput-placeholder{
+  position: absolute;
+  z-index: 2;
+  font-size: 16px;
+  top: 16px;
+  left: 15px;
+  pointer-events: none;
+  color: var(--darkGray);
+}
+.textInput-placeholder b{
+  color: var(--rubin);
+}
+.inputText input{
+  width: 100%;
+  height: 56px;
+  padding: 0 15px;
+  border: solid 1px silver;
+  font-size: 16px;
+  padding-top: 14px;
+  box-sizing: border-box;
+  border-radius: 3px;
+}
+.inputText input:focus{
+  outline: none;
+  border-bottom: solid 1px var(--sea);
+}
+.inputText input:focus+.textInput-placeholder, .inputText.focus > .textInput-placeholder{
+  font-size: 12px;
+  top: 6px;
+  color: rgb(151, 151, 151);
+  transition: all .1s;
+}
+.inputText-alert{
+  position: relative;
+  display: none;
+}
+.inputText-alert span{
+  padding: 0;
+}
+.inputText.alert > .inputText-alert{
+  color: var(--rubin);
+  display: block;
+  padding: 5px 0;
+}
+.inputText.alert > input{
+  border-color: var(--rubin);
+}
+.inputText.alert > .textInput-placeholder{
+  color: var(--rubin);
+}

@@ -1,0 +1,40 @@
+.BigButton{
+  height: 80px;
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 23px;
+  padding: 0 100px;
+  border-radius: 3px;
+  cursor: pointer;
+}
+.BigButton:focus{
+  outline: none;
+}
+.sea-big-button{
+  background: var(--sea);
+  color: var(--white);
+  border: solid 1px var(--sea);
+}
+.sea-big-button:hover{
+  background: var(--seaHover);
+  border-color: var(--seaHover);
+}
+.sea-big-button:focus{
+  background: var( --seaFocus);
+  border-color: var(--seaFocus);
+}
+/* white-big-button */
+.white-big-button{
+  background: var(--white);
+  border: solid 1px var(--gray2);
+  color: var(--gray);
+}
+.white-big-button:hover{
+  border-color: var(--sea);
+  color: var(--sea);
+}
+.white-big-button:focus{
+  background: var(--white);
+  color: var(--sea);
+  border-color: var(--sea);
+}

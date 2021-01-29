@@ -1,24 +1,31 @@
-import logo from './logo.svg';
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { useCookies } from 'react-cookie';
+
+
+import Index from './pages/index';
+import Auth from './pages/auth';
+import Registration from './pages/registration';
+import Admin from './pages/adminPages/admin';
+// import Admin_AddProduct from './pages/adminPages/addProduct';
+import AddProd from './pages/adminPages/addProduct/addProd'
 import './App.css';
 
+
+
 function App() {
+
+  const [cookies, setCookie] = useCookies(['userData']);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter>
+      <Switch>
+        <Route exact path='/' component={Index} />
+        <Route exact path='/auth' component={Auth} />
+        <Route exact path='/registration' component={Registration} />
+        <Route exact path='/admin' component={Admin} />
+      </Switch>
+    </BrowserRouter>
   );
 }
 

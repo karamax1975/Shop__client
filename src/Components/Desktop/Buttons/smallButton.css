@@ -1,0 +1,74 @@
+.btn-small{
+  display: block;
+  border: none;
+  height: 56px;
+  min-width: 56px;
+  border-radius: 3px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.btn-small:focus{
+  outline: none;
+}
+
+/* ----------------add styles */
+.btn-small.sea{
+  background: var(--sea);
+  color: var(--white);
+  font-size: 14px;
+  font-weight: 500;
+}
+.btn-small.sea:hover{
+  background: var(--seaHover);
+}
+.btn-small.white{
+  background: var(--white);
+}
+.btn-small.white:hover{
+  background: var(--sea);
+}
+.btn-small.white:hover svg{
+  stroke: var(--white);
+}
+.btn-small.white svg{
+  stroke: var(--sea);
+  stroke-width:2px;
+}
+.btn-small.sea svg{
+  stroke: var(--white);
+  stroke-width:2px;
+}
+.btn-small.gray{
+  background: var(--gray2);
+}
+.btn-small.outline-sea{
+  border: solid 1px var(--sea);
+}
+.btn-small.gray svg{
+  stroke: var(--sea);
+  stroke-width:2px;
+}
+.btn-small.square{
+  border-radius: 0;
+}
+.btn-small.reset svg{
+  stroke: #BDBDBD;
+  stroke-width:2px;
+}
+.btn-small.reset > .btn-small__icon{
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: solid 1px#BDBDBD;
+}
+.btn-small.reset:hover svg{
+  stroke: var(--rubin);
+}
+.btn-small.reset:hover >.btn-small__icon{
+  border-color: var(--rubin);
+}

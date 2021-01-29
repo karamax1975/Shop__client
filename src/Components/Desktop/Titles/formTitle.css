@@ -1,0 +1,13 @@
+.formTitle{
+  font-size: 20px;
+  line-height: 23px;
+  font-weight: 400;
+  color: var(--sea);
+  margin-bottom: 15px;
+}
+.formTitle.alert{
+  color:var(--rubin)
+}
+.formTitle b{
+  color: var(--rubin);
+}

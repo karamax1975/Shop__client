@@ -1,0 +1,15 @@
+.header__userLink{
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  color: var(--black);
+  font-weight: 500;
+}
+.header__userLink span {
+  margin-left: 9px;
+  transition: all .1s;
+}
+.header__userLink:hover >span{
+  color: var(--sea);
+  border-bottom: solid 1px var(--sea);
+}

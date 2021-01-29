@@ -1,0 +1,50 @@
+header{
+  background: var(--white);
+}
+.top-header{
+  background: var(--gray2);
+}
+
+.top-header-wrapper{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 14px;
+  font-weight: 400;
+  padding: 14px 0;
+}
+.top-header__welcome h5{
+  color: var(--sea);
+  font-size: 14px;
+  font-weight: 400;
+}
+.top-header__nav a{
+  margin: 0 20px;
+  font-weight: 500;
+  color: var(--black);
+  transition: all .1s;
+}
+.top-header__nav a:hover{
+  color: var(--sea);
+  border-bottom: solid 1px var(--sea);
+}
+.top-header__contacts a{
+  color: var(--sea);
+}
+
+/* ------------------------------------------------------ */
+.header-wrapper{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 80px;
+  border-bottom: solid 1px var(--gray2);
+}
+.header__brandName h4{
+  font-size: 30px;
+  font-weight: 600;
+  color: var(--black);
+}
+.header__brandName h4 b{
+  color: var(--sea);
+}

@@ -1,0 +1,15 @@
+.InputUniversal{
+  height: 56px;
+  width: 100%;
+  border:  1px solid var(--gray2);
+  border-radius: 3px;
+  padding:0 15px ;
+  font-size: 16px;
+  color: var(--black);
+  box-sizing: border-box;
+  display: block;
+}
+.InputUniversal:focus{
+  outline: none;
+  border-color: var(--sea);
+}

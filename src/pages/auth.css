@@ -1,0 +1,42 @@
+.auth-page{
+  margin-top: 40px;
+}
+.auth-page h1{
+  font-weight: 300;
+  margin-bottom: 20px;
+  color: var(--gray-dark);
+}
+.auth-page .user-link{
+  padding-top: 30px;
+  display: flex;
+  flex-direction: column;
+}
+.auth-page .user-link a{
+  display: inline-block;
+  margin: 5px 0;
+}
+.auth-page .user-link span{
+  color: var(--sea);
+  font-size: 16px;
+  border-bottom: solid 1px var(--white);
+}
+.auth-page .user-link a:hover > span{
+  border-bottom: solid 1px var(--sea);
+}
+.auth-help{
+  border-top: solid 1px var(--gray2);
+  border-bottom: solid 1px var(--gray2);
+  margin: 30px 0;
+}
+.auth-help h3{
+  font-size: 18px;
+  font-weight: 400;
+  color: var(--grayDark);
+  padding: 30px 0;
+}
+.auth-help a{
+  color: var(--sea);
+}
+.auth-help a:hover{
+  border-bottom: solid 1px var(--sea);
+}

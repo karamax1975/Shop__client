@@ -1,0 +1,17 @@
+.bottom-header-admin{
+  
+  /* display: flex; */
+  
+  
+}
+.bottom-header-admin_wrapper{
+  display: flex;
+  min-height: 80px;
+  align-items: center;
+  border-bottom: solid 1px var(--gray2);
+}
+.bottom-header-admin__tools{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
