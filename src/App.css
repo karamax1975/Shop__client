@@ -5,6 +5,8 @@
 
 :root{
   --gray2:#F2F2F2;
+  --gray2Hover:#ECECEC;
+  --dark:#333333;
   --gray:#E0E0E0;
   --sea:#31CED8;
   --seaHover:#34D8E2;

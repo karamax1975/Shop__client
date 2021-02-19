@@ -1,0 +1,30 @@
+.adminToolsNavbar{
+  width: 100%;
+  background: var(--gray2);
+  margin-top: 30px;
+  border-radius: 10px;
+  overflow: hidden;
+}
+.adminToolsNavbar li{
+  height: 56px;
+  cursor: pointer;
+  padding: 0 15px;
+  display: flex;
+  align-items: center;
+  border-bottom: solid 1px var(--white);
+}
+.adminToolsNavbar li:hover{
+  background: var(--gray2Hover);
+}
+.adminToolsNavbar li span{
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 16px;
+  color: var(--dark);
+}
+.adminToolsNavbar li.active{
+  background: var(--sea);
+}
+.adminToolsNavbar li.active span{
+  color: var(--white);
+}

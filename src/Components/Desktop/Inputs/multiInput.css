@@ -1,0 +1,33 @@
+.MultiInputs_row{
+  display: flex;
+  justify-content: space-between;
+  column-gap: 15px;
+}
+.MultiInputs__userData{
+  margin-bottom: 15px;
+  
+}
+
+.MultiInputs__userData .MultiInputs_row{
+  margin-bottom: 15px;
+}
+.MultiInputs__userData .MultiInputs_row:last-child{
+  border-bottom: solid 1px var(--sea);
+  padding-bottom: 15px;
+}
+.MultiInputs__userData .InputUniversal{
+  border-bottom: solid 1px var(--gray2);
+}
+.MultiInputs__userData input{
+  border: none;
+  padding-left: 0;
+  
+}
+/* ------------ */
+.add-detail{
+  margin-top: 15px;
+}
+.cap{
+  width: 56px;
+  flex-shrink: 0
+}

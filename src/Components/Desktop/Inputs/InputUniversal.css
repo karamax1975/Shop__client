@@ -13,3 +13,6 @@
   outline: none;
   border-color: var(--sea);
 }
+.InputUniversal::placeholder{
+  color: var(--gray)
+}

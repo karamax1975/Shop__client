@@ -39,6 +39,6 @@
 }
 
 .btn-round.disable{
-  background: var(--gray2) !important;
+  background: var(--gray2);
   color: var(--white);
 }

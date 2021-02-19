@@ -1,0 +1,41 @@
+.galery-previews__wrapper{
+  display: flex;
+  width: 100%;
+  overflow: hidden;
+}
+.galery-previews_item{
+  width: 107px;
+  flex-shrink: 0;
+  margin-right: -1px;
+  cursor: pointer;
+  height: 106px;
+  border: solid 1px var(--gray2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 3px;
+}
+.galery-previews_item label{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+
+}
+.galery-previews_item svg{
+  stroke: var(--sea);
+  stroke-width: 2px;
+}
+
+.preview-scroll{
+  overflow-x:auto;
+  width: 100%;
+}
+.preview-scroll_list{
+  display: flex;
+}
+.galery-previews p{
+  font-size: 14px;
+  color: var(--black);
+  margin-bottom:25px;
+}

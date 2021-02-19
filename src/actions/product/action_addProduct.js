@@ -1,30 +1,39 @@
 import {
-  ADD_PRODUCT__SHOW_PANEL,
-  ADD_PRODUCT__SET_TEMPLATE_DATA,
-  ADD_PRODUCT__SET_FORM_NAME,
-  ADD_PRODUCT__SET_FORM_BRAND,
-  ADD_PRODUCT__SET_FORM_PREVIEW,
-  ADD_PRODUCT__SET_FORM_SHORTDESCRIPTION,
-  ADD_PRODUCT__SET_FORM_PRICE,
-  ADD_PRODUCT__SET_FORM_PREVIEWS,
-  ADD_PRODUCT__SET_FORM_CATEGORY,
-  ADD_PRODUCT__SET_FORM_DESCRIPTION,
-  ADD_PRODUCT__SET_FORM_DETALS,
-  ADD_PRODUCT__SET_FORM_PROMOTIONS,
-  ADD_PRODUCT__CLEAR_STATE,
+  // ----------------------------------- create product
   ADD_PRODUCT__PRODUCT_CREATE,
-  ADD_PRODUCT__INFO_CREATED_PRODUCT
+  ADD_PRODUCT__CONFIRM_FORM,
+  // ---------------------------------- edit
+  EDIT_PRODUCT__LOAD_PRODUCT,
+  EDIT_PRODUCT__EDIT,
+  EDIT_PRODUCT__PRELOADER_IMG,
+  EDIT_PRODUCT__FLAG_CATEGORY,
+  EDIT_PRODUCT__LOAD_CATEGORY,
+  EDIT_PRODUCT__CATEGORY_DROP,
+  EDIT_PRODUCT__ADD_NEW_CATEGORY,
+  EDIT_PRODUCT__ADD_NAME_NEW_CATEGORY,
+  EDIT_PRODUCT__ADD_NEW_IMG_GALERY_PREVIEW,
+  EDIT_PRODUCT__GALERY_DELETE_IMG,
+  EDIT_PRODUCT__ADD_DETAIL,
+  EDIT_PRODUCT__ADD_NEW_DETAIL,
+  EDIT_PRODUCT__EDIT_DETAIL,
+  EDIT_PRODUCT__DELETE_DETAIL,
+  EDIT_PRODUCT__ADD_NEW_PROMO,
+  EDIT_PRODUCT__PROMO_SET_DISCOUNT,
+  EDIT_PRODUCT__LOAD_LIST_PROMO,
+  EDIT_PRODUCT__SELECT_PROMO,
+  EDIT_PRODUCT__DEL_ITEM_PROMO,
+  EDIT_PRODUCT__CANCEL_EDIT,
+  EDIT_PRODUCT__UPDATE_PRODUCT,
+  EDIT_PRODUCT__ADD_PREVIEW_IMG
+
 } from '../../reducers/Types';
 
-export function _setInfoCreatedProduct(name, id) {
-  return {
-    type: ADD_PRODUCT__INFO_CREATED_PRODUCT,
-    payload: {
-      name,
-      id
-    }
-  }
-}
+import { UPDATE_PRODUCT, GET_CHOICE, GET_CATEGORY, ADD_CATEGORY, DELETE_IMG, UPLOAD_IMG, CREATE_PRODUCT } from '../../api/endpoint';
+import API from '../../api/api'
+
+
+
+
 export function _productCreate(flag) {
   return {
     type: ADD_PRODUCT__PRODUCT_CREATE,
@@ -32,82 +41,166 @@ export function _productCreate(flag) {
   }
 }
 
-export function _clearProduct() {
-  return {
-    type: ADD_PRODUCT__CLEAR_STATE
+export function _confirmCreateProduct(obj) {
+  return async dispatch => {
+    const response = await API.fetch(CREATE_PRODUCT, obj);
+    if (response.status) dispatch({ type: ADD_PRODUCT__CONFIRM_FORM })
   }
 }
 
-export function _renderForm(status) {
-  return {
-    type: ADD_PRODUCT__SHOW_PANEL,
-    payload: status
-  }
-}
-export function _setTemplateData(data) {
-  return {
-    type: ADD_PRODUCT__SET_TEMPLATE_DATA,
-    payload: data
+// -----------------------------------------------------------
+
+export function _addPreviewImg(obj) {
+  return async dispatch => {
+    const { oldImg, newImg } = obj
+    //включаю прелоадер
+    dispatch({ type: EDIT_PRODUCT__PRELOADER_IMG, payload: true })
+    const response = await API.fetch(UPLOAD_IMG, newImg);
+    if (response.status) {
+      dispatch({
+        type: EDIT_PRODUCT__ADD_PREVIEW_IMG, payload: {
+          oldImg,
+          newImg: response.file
+        }
+      })
+      dispatch({ type: EDIT_PRODUCT__PRELOADER_IMG, payload: false })
+    }
   }
 }
 
-export function _setForm_Name(value) {
-  return {
-    type: ADD_PRODUCT__SET_FORM_NAME,
-    payload: value
+export function _updateProduct(data) {
+  return async dispatch => {
+    const response = await API.fetch(UPDATE_PRODUCT, data)
+    if (response.status) {
+      dispatch({ type: EDIT_PRODUCT__UPDATE_PRODUCT, payload: true })
+    }
+    else dispatch({ type: EDIT_PRODUCT__UPDATE_PRODUCT, payload: false })
+  }
+
+}
+
+export function _cancelEdit(arrImg) {
+  return async dispatch => {
+    if (arrImg.length > 0) {
+      const response = await API.fetch(DELETE_IMG, arrImg);
+    }
+    dispatch({ type: EDIT_PRODUCT__CANCEL_EDIT })
   }
 }
-export function _setForm_Brand(value) {
-  return {
-    type: ADD_PRODUCT__SET_FORM_BRAND,
-    payload: value
+
+export function _delItemPromo(name) {
+  return { type: EDIT_PRODUCT__DEL_ITEM_PROMO, payload: name }
+}
+
+export function _selectPromo(_id) {
+  return { type: EDIT_PRODUCT__SELECT_PROMO, payload: _id }
+}
+
+export function _loadListPromo() {
+  return async dispatch => {
+    const response = await API.fetch(GET_CHOICE)
+    if (response) dispatch({ type: EDIT_PRODUCT__LOAD_LIST_PROMO, payload: response })
   }
 }
-export function _setForm_Preview(value) {
+export function _promo_SetDiscount(number) {
+  const itsNumber = parseInt(number)
+  if (itsNumber !== NaN)
+    return { type: EDIT_PRODUCT__PROMO_SET_DISCOUNT, payload: number }
+}
+
+export function _promo_addNewDiscount(name, status) {
   return {
-    type: ADD_PRODUCT__SET_FORM_PREVIEW,
-    payload: value
+    type: EDIT_PRODUCT__ADD_NEW_PROMO,
+    payload: {
+      name,
+      status
+    }
   }
 }
-export function _setForm_shortDescription(value) {
+
+export function _deleteDetail(id) {
+  return { type: EDIT_PRODUCT__DELETE_DETAIL, payload: id }
+}
+
+export function _editDetail(id, obj) {
+  return { type: EDIT_PRODUCT__EDIT_DETAIL, payload: { id, obj } }
+}
+
+export function _addNewDetail(obj) {
   return {
-    type: ADD_PRODUCT__SET_FORM_SHORTDESCRIPTION,
-    payload: value
+    type: EDIT_PRODUCT__ADD_NEW_DETAIL,
+    payload: obj
   }
 }
-export function _setForm_Price(value) {
+
+export function _deleteImgInGalery(name) {
+  return async dispatch => {
+    dispatch({ type: EDIT_PRODUCT__GALERY_DELETE_IMG, payload: name })
+  }
+
+}
+
+export function _addDetail() {
   return {
-    type: ADD_PRODUCT__SET_FORM_PRICE,
-    payload: value
+    type: EDIT_PRODUCT__ADD_DETAIL
   }
 }
-export function _setForm_Previews(array) {
-  return {
-    type: ADD_PRODUCT__SET_FORM_PREVIEWS,
-    payload: array
+
+export function _addNameNewCategory(name) {
+  return { type: EDIT_PRODUCT__ADD_NAME_NEW_CATEGORY, payload: name }
+}
+
+export function _addNewImgGaleryPreviews(newImg) {
+  const arrayImg = []
+  return async dispatch => {
+    const response = await API.fetch(UPLOAD_IMG, newImg);
+    if (response.status) {
+      arrayImg.push(response.file);
+      dispatch({ type: EDIT_PRODUCT__ADD_NEW_IMG_GALERY_PREVIEW, payload: arrayImg })
+    }
   }
 }
-export function _setForm_Category(value) {
-  return {
-    type: ADD_PRODUCT__SET_FORM_CATEGORY,
-    payload: value
+
+export function _addCategory(name) {
+  return async dispatch => {
+    const response = await API.fetch(ADD_CATEGORY, name);
+    if (response.status) {
+      dispatch({ type: EDIT_PRODUCT__ADD_NEW_CATEGORY, payload: response.newCategory })
+      dispatch({ type: EDIT_PRODUCT__FLAG_CATEGORY, payload: false })
+    }
   }
 }
-export function _setForm_Description(value) {
-  return {
-    type: ADD_PRODUCT__SET_FORM_DESCRIPTION,
-    payload: value
+
+export function _categoryDrop() {
+  return { type: EDIT_PRODUCT__CATEGORY_DROP }
+}
+
+export function _loadCategory() {
+  return async dispatch => {
+    const response = await API.fetch(GET_CATEGORY);
+    if (response) dispatch({ type: EDIT_PRODUCT__LOAD_CATEGORY, payload: response })
+  }
+
+}
+export function _flagCategory(status) {
+  return { type: EDIT_PRODUCT__FLAG_CATEGORY, payload: status }
+}
+
+export function _editProduct(key, value) {
+  return dispatch => {
+    dispatch({
+      type: EDIT_PRODUCT__EDIT,
+      payload: {
+        key,
+        value
+      }
+    })
   }
 }
-export function _setForm_Detals(value) {
-  return {
-    type: ADD_PRODUCT__SET_FORM_DETALS,
-    payload: value
+
+export function _loadProduct(obj) {
+  return dispatch => {
+    dispatch({ type: EDIT_PRODUCT__LOAD_PRODUCT, payload: obj })
   }
 }
-export function _setForm_Promo(value) {
-  return {
-    type: ADD_PRODUCT__SET_FORM_PROMOTIONS,
-    payload: value
-  }
-}
+

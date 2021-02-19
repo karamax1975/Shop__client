@@ -3,11 +3,10 @@ import { Redirect, useHistory } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
 import { connect, useDispatch, useSelector } from 'react-redux';
 
-
-import { _authorization } from '../../actions/user/user_actions';
-import AddProduct from '../../pages/adminPages/addProduct/addProd'
+import { _getUserId } from '../../actions/user/user_actions';
 import AdminHeader from '../../Components/Desktop/adminTemplate/header/header';
 import AdminToolsNavbar from '../../Components/Desktop/adminTemplate/adminToolsNavbar'
+import ListProducts from '../../pages/adminPages/listProducts';
 
 
 
@@ -20,60 +19,58 @@ function Admin() {
   const [cookies, removeCookie] = useCookies(['userData']);
   const { renderSection } = useSelector(state => state.adminPage);
 
-  async function confirmationUser(cookie) {
-    const response = await fetch('/api/login', {
+  async function auth(controller, cookies) {
+    const response = await fetch('api/login', {
       method: 'POST',
-      Authorization: `Bearer ${cookie}`
+      Authorization: `Bearer ${cookies.name}`,
+      signal: controller.signal
     })
-    if (response.status === 200) {
-      const rez = await response.json();
-      return rez.userID;
-
+    if (response.ok) {
+      return await response.json();
     }
-    else history.push('/')
+    else return false
+
   }
 
-
   useEffect(() => {
-    // проверка авторизации -- временно отключенно!!!!!
-    async function confirm(cookie) {
-      if (cookie.name) {
-        const userID = await confirmationUser(cookie.name);
-        if (userID) {
-          dispatch(_authorization(true, userID));
-        }
-        else {
-          // -------------------------- надо удалить куку---------------------------------------------------
-          removeCookie('name')
-          history.push('/auth')
-        }
-
-      } else {
-        history.push('/auth');
-      };
-
+    const ac = new AbortController();
+    auth(ac, cookies).then(data => {
+      if (data) {
+        dispatch(_getUserId(data.id, data.status))
+      }
+      else if (cookies.name) {
+        removeCookie('name')
+        history.push('/auth')
+      }
+      else history.push('/auth');
+    })
+    return () => {
+      ac.abort()
     }
-    confirm(cookies)
-    // ---------------------------------------
   }, [])
 
 
 
-  const AdminGUI = () => {
 
-    function render() {
-      switch (renderSection) {
-        case 'add_Product':
-          return <AddProduct />
 
-        default:
-          return '';
-      }
 
+  function UIRender() {
+    switch (renderSection) {
+      // case 'Add product':
+      //   return <AddProduct />
+      case 'Products':
+        return <ListProducts />
+      default:
+        return '';
     }
 
-    return (
-      <>
+  }
+
+
+  return (
+    cookies.name
+      ?
+      <div>
         <AdminHeader />
         <div className='container'>
           <div className='row'>
@@ -81,28 +78,16 @@ function Admin() {
               <AdminToolsNavbar />
             </div>
             <div className='col-lg-9'>
-              {render()}
+              {UIRender()}
             </div>
           </div>
         </div>
-      </>
-
-
-    )
-  }
-
-
-  return (
-    cookies.name
-      ? <AdminGUI />
+      </div>
       : <Redirect to='/' />
 
   )
 }
 
-// const mapDispatchToProps = {
-//   _authorization
-// }
 
 const mapStateToProps = (store) => {
   const { userStore } = store;

@@ -1,0 +1,127 @@
+.listProducts__itemProduct{
+  
+  border: solid 1px var(--gray2);
+  border-radius: 3px;
+  cursor: pointer;
+  
+}
+.itemProduct__wrapper{
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  column-gap: 20px;
+  position: relative;
+  overflow: hidden;
+}
+.listProducts__itemProduct:hover{
+  border-color: var(--gray);
+}
+.listProducts__itemProduct.active{
+  border-color: var(--sea);
+}
+.listProducts__itemProduct p{
+  font-size: 14px;
+}
+.itemProduct__preview{
+  height: 120px;
+  width: 120px;
+  /* border: solid 1px var(--gray2); */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 3px;
+  flex-grow: 0;
+  overflow: hidden;
+}
+
+.itemProduct__preview img{
+  max-height: 100%;
+  max-width: 100%;
+  width: auto;
+  height: auto;
+}
+.itemProduct__name{
+  width: 21%;
+}
+.itemProduct__brand{
+  width: 17%;
+}
+.itemProduct__prise{
+  width: 8%;
+  font-size: 16px;
+  line-height: 19px;
+  font-weight: 700;
+  color: var(--sea);
+  font-size: 16px;
+}
+.itemProduct__category{
+  width: 14%;
+}
+.itemProduct__date span{
+  display: block;
+  font-size: 12px;
+  line-height: 14px;
+}
+
+/* focus */
+.itemProduct__focus{
+  position: absolute;
+  height: 100%;
+  right: 0;
+  display: flex;
+  animation-name:move;
+  animation-duration: .3s;
+}
+.itemProduct__focus::before{
+  position: absolute;
+  width: 120px;
+  height: 100%;
+  content: '';
+  left: -120px;
+  background: linear-gradient(270deg, #EDEDED 0%, rgba(255, 255, 255, 0) 100%);
+
+}
+@keyframes move{
+  0%{
+    right: -120px;
+  }
+  100%{
+    right: 0;
+  }
+}
+.itemProduct__focus button{
+  height: 100%;
+  width: 142px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  row-gap: 5px;
+  font-size: 12px;
+  line-height: 12px;
+  cursor: pointer;
+ border: none;
+}
+.itemProduct__focus button:focus{
+  outline: none;
+}
+.focus__editProduct{
+  background: var(--white);
+  color: var(--sea);
+}
+.focus__delProduct{
+  background: var(--rubin);
+  color: var(--white);
+}
+.itemProduct__activity{
+  width: 56px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* -------------------disabled */
+.itemProduct__wrapper.disabled{
+  opacity: .3;
+}

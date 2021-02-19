@@ -1,0 +1,118 @@
+
+.product{
+  --gap:15px;
+  padding: var(--gap);
+  display: flex;
+  row-gap: var(--gap);
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+.product-col-lg-6{
+  width: calc(50% - var(--gap)/2);
+  display: flex;
+  flex-direction: column;
+  row-gap: var(--gap);
+}
+/* ----------------------------------- */
+.FormLayout__Price{
+  padding-bottom: 0;
+}
+.FormLayout__Price .formLayout__title{
+  margin-bottom: 0;
+}
+.product_price{
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+.product_price input{
+  font-size: 20px;
+    line-height: 23px;
+    font-weight: 700;
+    padding-left: 20px;
+    border: none;
+}
+.product_price h5{
+  position: absolute;
+  left: 0;
+  font-size: 20px;
+  line-height: 23px;
+  font-weight: 700;
+  color: var(--sea);
+}
+/* ------------------------------ */
+.FormLayout_Category{
+  padding-bottom: 0;
+  padding-top: 17px;
+}
+.product_category{
+  position: relative;
+}
+.product_category .title{
+  font-size: 20px;
+  line-height: 23px;
+  display: flex;
+  align-items: center;
+  padding-left: 15px;
+  height: 100%;
+}
+
+.product_category__select{
+  height: 56px;
+  width: 100%;
+}
+.product_category .btn-small{
+  position: absolute;
+  right: -16px;
+}
+.product_category .list-button{
+  right: -16px;
+  bottom: 0;
+}
+.product_category .list-button .btn-small__icon{
+  transition: all .2s;
+}
+.product_category .list-button.active .btn-small__icon{
+  transform: rotate(-180deg);
+  
+}
+ .selector-button{
+  top: -56px;
+  border: solid 1px var(--sea);
+  border-color: var(--gray2);
+}
+ .selector-button:hover{
+  background: var(--white) !important;
+  border-color: var(--sea) !important;
+}
+ .selector-button:hover svg{
+  stroke:var(--sea) !important;
+}
+.product_category .select__drop{
+  width: calc(100% + var(--gap)*2);
+  position: absolute;
+  z-index: 999;
+  top: 56px;
+  border: solid 1px var(--sea);
+  background: var(--white);
+  overflow-y: visible;
+  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.1));
+  border-radius: 3px;
+  max-height: 280px;
+
+}
+.product_category .select__drop li{
+  height: 56px;
+  padding: 0 var(--gap);
+  display: flex;
+  align-items: center;
+  border-bottom: solid 1px var(--gray2);
+}
+.product_category .select__drop li:hover{
+  background: #F9F9F9;
+}
+/* ---- input in price */
+.product_category__input{
+  margin: 0 -15px;
+}
+

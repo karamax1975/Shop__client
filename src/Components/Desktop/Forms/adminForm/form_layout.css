@@ -1,0 +1,29 @@
+.formLayout{
+  border: solid 1px var(--gray2);
+  border-radius: 3px;
+  padding: 15px;
+  width: 100%;
+  position: relative;
+}
+.formLayout .formLayout__title{
+  font-size: 20px;
+    line-height: 23px;
+    font-weight: 400;
+    color: var(--sea);
+    margin-bottom: 15px;
+}
+.formLayout .formLayout__title b{
+  color: var(--rubin);
+}
+.formLayout.alert{
+  border-color: var(--rubin);
+}
+.formLayout.alert .template{
+  display: none;
+}
+.formLayout.alert.FormLayout_Category{
+  height: 111px;
+}
+.formLayout.alert .product_category__select{
+  bottom: -13px !important;
+}

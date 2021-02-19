@@ -1,0 +1,33 @@
+.textArea{
+  width: 100%;
+  outline: none;
+    border: none;
+    overflow-x: hidden;
+    resize: none;
+    overflow: hidden;
+    padding: 0;
+    color: var(--black);
+}
+.textArea-name{
+  height: 205px;
+  font-size: 35px;
+  font-weight: 700;
+  line-height: 41px;
+}
+.textArea-brend{
+  font-size: 20px;
+  line-height: 23px;
+  font-weight: 700;
+}
+.textArea-shortDescription{
+  height: 140px;
+  font-size: 20px;
+  line-height: 23px;
+  font-weight: 700;
+}
+.textArea-description{
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 19px;
+  height: 250px;
+}
