@@ -35,10 +35,10 @@ export default function EditProduct({ close }) {
 
   useEffect(() => {
     initCheck()
-    document.body.addEventListener('click', onBlur)
+    // document.body.addEventListener('click', onBlur)
     return () => {
       // при закрытии компонента обновляю список продуктов
-      document.body.removeEventListener('click', onBlur);
+      // document.body.removeEventListener('click', onBlur);
       dispatch(_getListProducts())
     }
   }, [])

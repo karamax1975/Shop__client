@@ -32,16 +32,17 @@ export default function Categorys({ data }) {
           </div>
           {categoryDrop ?
             <ul className='select__drop' style={{ width: "calc(100% + 16px)" }}>
-              {listCategory.map(item =>
-                <li key={item._id}
+              {listCategory.map(item => {
+                return <li key={item._id}
                   onClick={() => {
-                    dispatch(_editProduct('category', [{ id: item._id, name: item.name }]))
+                    dispatch(_editProduct('category', [{ _id: item._id, name: item.name }]))
                     dispatch(_categoryDrop())
                   }}
                 >
                   <span
                   >{item.name}</span>
-                </li>)}
+                </li>
+              })}
             </ul>
             : ''
           }

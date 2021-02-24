@@ -59,7 +59,7 @@ export default function ListProductsItemProduct({ data }) {
             </div>
             <div className="itemProduct__brand"><p>{data.brand}</p></div>
             <div className="itemProduct__category">{data.category.map(item => <p key={item._id}>{item.name}</p>)}</div>
-            <div className="itemProduct__prise"><p>{`€`} {data.prise}</p></div>
+            <div className="itemProduct__prise"><p>{`€`} {data.price}</p></div>
             <div className="itemProduct__date">
               <span>{`${date.slice(0, 10)}`}</span>
               <span>{`${date.slice(11, 16)}`}</span>

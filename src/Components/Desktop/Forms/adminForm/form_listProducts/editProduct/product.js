@@ -15,8 +15,7 @@ import './product.css';
 
 export default function ItemProduct({ data, feedback }) {
 
-  const { template } = useSelector(state => state.productStore)
-
+  const { template, product } = useSelector(state => state.productStore)
   const dispatch = useDispatch()
   return (
     <div className='product'>
@@ -49,16 +48,16 @@ export default function ItemProduct({ data, feedback }) {
         {/* -------------------------------------------------------------------------------- */}
         <FormLayout title='Price'
           condition={true}
-          alertFlag={feedback.prise}
+          alertFlag={feedback.price}
           style='FormLayout__Price'
           alertText='The field is not filled'
         >
           <div className='product_price'>
             <h5>{config._CURRENCY_SIGN}</h5>
             <InputUniversal
-              value={data.prise}
-              action={(number) => dispatch(_editProduct('prise', number))}
-              template={template.prise}
+              value={data.price}
+              action={(number) => dispatch(_editProduct('price', number))}
+              template={template.price}
             />
           </div>
         </FormLayout>

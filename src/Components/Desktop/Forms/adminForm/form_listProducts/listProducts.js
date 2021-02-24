@@ -1,9 +1,12 @@
 import React from 'react';
 import './listProducts.css';
 
-import ListProductsItemProduct from './listProducts_ItemProduct'
+import FiltersListProducts from './filtersListProduct'
+import ListProductsItemProduct from './listProducts_ItemProduct';
+import FindProduct from './findProduct'
 
 export default function ListProducts({ data }) {
+
 
   const render = data.map(item => {
     return (
@@ -13,6 +16,8 @@ export default function ListProducts({ data }) {
 
   return (
     <div className='listProducts'>
+      <FindProduct />
+      <FiltersListProducts />
       {data.length > 0
         ? render
         : <div>Preloader</div>

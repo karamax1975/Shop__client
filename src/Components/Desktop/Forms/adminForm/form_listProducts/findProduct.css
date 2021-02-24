@@ -1,0 +1,33 @@
+.FindProduct{
+  position: relative;
+  border: solid 1px var(--gray2);
+  border-radius: 3px ;
+}
+.FindProduct.active{
+  border-color: var(--sea);
+}
+.FindProduct .InputUniversal{
+  border: none;
+}
+.FindProduct__preview{
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  left: 15px;
+}
+.FindProduct__preview svg{
+  stroke:var(--gray);
+  stroke-width: 1.5px;
+  stroke-linecap:"round"
+}
+.FindProduct__preview span{
+  color: var(--gray);
+  margin-left: 10px;
+}
+.FindProduct .btn-small{
+  position: absolute;
+  top: 0;
+  right: 0;
+}

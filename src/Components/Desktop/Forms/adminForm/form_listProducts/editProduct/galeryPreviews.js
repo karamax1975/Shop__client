@@ -1,5 +1,4 @@
 import React from 'react';
-import uniqid from 'uniqid';
 
 import InputGallery from '../../../../Inputs/inputGallery';
 import './galeryPreviews.css';
@@ -13,7 +12,7 @@ export default function GaleryPreviews({ data, action }) {
   if (!data) data = []
   const list = data.map((item, index) => {
     return <InputGallery
-      key={uniqid()}
+      key={index}
       style='galery-previews_item'
       value={item}
       galeryMode='true'

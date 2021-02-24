@@ -1,0 +1,48 @@
+.filtersListProducts{
+  display: flex;
+  /* column-gap: 15px; */
+  margin: 15px 0 !important;
+}
+.filtersListProducts .filter{
+  height: 20px;
+  border-left: solid 1px var(--sea);
+  padding: 0 10px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+.filtersListProducts .filter span{
+  display: block;
+  font-size: 12px;
+  color: var(--gray);
+}
+
+.filter.Activity{
+  width: calc(76px + 15px);
+  flex-grow: 0;
+}
+.filter.Preview{
+  width: 135px;
+}
+.filter.Name{
+  width: calc(21% + 15px);
+}
+.filter.Category{
+  width: calc(17% + 15px);
+}
+.filter.Brand{
+  width: calc(14% + 15px);
+}
+.filter.Price{
+  width: calc(8% + 15px);
+}
+.filter.Date{
+  width: 99px;
+}
+.filtersListProducts .filter.active{
+  background: var(--sea);
+  
+}
+.filtersListProducts .filter.active span{
+  color: var(--white);
+}

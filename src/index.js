@@ -14,12 +14,12 @@ const store = createStore(rootReducer,
 )
 
 ReactDOM.render(
-  <React.StrictMode>
-    <Provider store={store}>
-      <CookiesProvider>
-        <App />
-      </CookiesProvider>
-    </Provider>
-  </React.StrictMode>,
+  // <React.StrictMode>
+  <Provider store={store}>
+    <CookiesProvider>
+      <App />
+    </CookiesProvider>
+  </Provider>,
+  // </React.StrictMode>,
   document.getElementById('root')
 );

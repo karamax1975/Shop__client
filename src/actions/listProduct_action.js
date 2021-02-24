@@ -5,10 +5,20 @@ import {
   LIST_PRODUCTS__DEL_PRODUCT,
   LIST_PRODUCTS__CHANGE_ACTIVITY,
   // 
+  LIST_PRODUCTS__SET_NAME_FILTER,
+  LIST_PRODUCTS__FIND_PRODUCT
+  // 
 } from '../reducers/Types';
 import API from '../api/api'
 import { LIST_PRODUCT, DEL_PRODUCT, UPDATE_PRODUCT } from '../api/endpoint'
 
+export function _findProduct(name) {
+  return { type: LIST_PRODUCTS__FIND_PRODUCT, payload: name.toLowerCase() }
+}
+
+export function _setNameFilter(name) {
+  return { type: LIST_PRODUCTS__SET_NAME_FILTER, payload: name.toLowerCase() }
+}
 
 export function _getListProducts() {
   return async dispatch => {

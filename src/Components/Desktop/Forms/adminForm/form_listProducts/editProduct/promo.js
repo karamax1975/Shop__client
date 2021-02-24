@@ -6,16 +6,15 @@ import InputUniversal from '../../../../Inputs/inputUniversal'
 import { _promo_addNewDiscount, _promo_SetDiscount, _selectPromo, _delItemPromo } from '../../../../../../actions/product/action_addProduct'
 import { useDispatch, useSelector } from 'react-redux';
 import SelectList from '../../../../Lists/selectList'
-import uniqid from 'uniqid';
 
 export default function Promo({ value }) {
-
 
   const [checkboxDiscount, setCheckboxDiscount] = useState(value.discount ?? false);
   const [checkboxPromo, setCheckboxPromo] = useState(value.promo && value.promo.length ? true : false);
   const { listPromo } = useSelector(state => state.productStore)
   const { promo } = value;
   const [userSelectPromo, setUserSelectPromo] = useState([])
+
 
   function initUserPromo(listPromo, userPromo) {
     const select = [];
@@ -24,11 +23,13 @@ export default function Promo({ value }) {
         if (item._id === userPromo[i]) select.push(item.name)
       }
     })
+
     return select
   }
   useEffect(() => {
-    setUserSelectPromo(initUserPromo(listPromo, promo))
-  }, [])
+    if (promo && listPromo)
+      setUserSelectPromo(initUserPromo(listPromo, promo))
+  }, [listPromo])
 
   const dispatch = useDispatch()
 
@@ -87,7 +88,7 @@ export default function Promo({ value }) {
           {userSelectPromo.map((item, index) => {
             return (
               <p className='userSelect__item'
-                key={uniqid()}
+                key={index}
                 onClick={(e) => {
                   e.preventDefault();
                   setUserSelectPromo((userSelectPromo) => {
