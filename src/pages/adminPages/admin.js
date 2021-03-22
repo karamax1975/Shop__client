@@ -7,6 +7,7 @@ import { _getUserId } from '../../actions/user/user_actions';
 import AdminHeader from '../../Components/Desktop/adminTemplate/header/header';
 import AdminToolsNavbar from '../../Components/Desktop/adminTemplate/adminToolsNavbar'
 import ListProducts from '../../pages/adminPages/listProducts';
+import Catalog from './catalog'
 
 
 
@@ -56,8 +57,8 @@ function Admin() {
 
   function UIRender() {
     switch (renderSection) {
-      // case 'Add product':
-      //   return <AddProduct />
+      case 'Catalog':
+        return <Catalog />
       case 'Products':
         return <ListProducts />
       default:

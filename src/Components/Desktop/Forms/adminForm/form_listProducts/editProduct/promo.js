@@ -33,9 +33,6 @@ export default function Promo({ value }) {
 
   const dispatch = useDispatch()
 
-  useEffect(() => {
-
-  }, [])
 
 
   useEffect(() => {

@@ -1,0 +1,54 @@
+
+.CatalogList{
+  width: 422px;
+  margin-top: 3px !important;
+}
+.CatalogList li{
+  list-style-type:none;
+}
+.CatalogList__header{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: solid 1px var(--sea);
+  height: 56px;
+  
+}
+.CatalogList__header h5{
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 23px;
+  color: var(--sea);
+}
+.CatalogList__header__control{
+  display: flex;
+  column-gap: 10px;
+}
+.CatalogList__header button{
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+  position: relative;
+  border-radius: 2px;
+  background: var(--white);
+  border: none;
+}
+.CatalogList__header button svg{
+  stroke-width: 1.5px;
+  stroke-linecap: round;
+  stroke: var(--sea);
+  position: absolute;
+  top: 3px;
+  left: 5px;
+}
+
+.CatalogList__header button:hover svg{
+  stroke: var(--seaHover);
+}
+.CatalogList__header button:focus svg{
+  stroke: var(--white);
+}
+.CatalogList__header button:focus{
+  outline: none;
+  background: var(--seaHover);
+}

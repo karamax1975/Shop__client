@@ -6,7 +6,7 @@ import { _selectSection } from '../../../actions/adminPage/action_adminPage'
 
 export default function AdminToolsNavbar() {
 
-  const arrayPages = ['Products']
+  const arrayPages = ['Products', 'Catalog']
   const [selectItem, setSelectItem] = useState(null)
   const dispatch = useDispatch();
 

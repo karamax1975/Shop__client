@@ -7,8 +7,19 @@ export const ADD_CATEGORY = 'ADD_CATEGORY';
 export const DELETE_IMG = 'DELETE_IMG';
 export const UPLOAD_IMG = 'UPLOAD_IMG';
 export const CREATE_PRODUCT = 'CREATE_PRODUCT';
+export const CREATE_CATALOG_ITEM = 'CREATE_CATALOG_ITEM';
+export const GET_LIST_CATALOG_ITEM = 'GET_LIST_CATALOG_ITEM';
+export const DEL_CATALOG_ITEM = 'DEL_CATALOG_ITEM'
 
 const ENDPOINTS = {
+  [GET_LIST_CATALOG_ITEM]: {
+    uri: '/getCatalogList',
+    method: 'GET'
+  },
+  [CREATE_CATALOG_ITEM]: {
+    uri: '/createCatalogItem',
+    method: 'POST'
+  },
   [LIST_PRODUCT]: {
     uri: '/getListAllProducts',
     method: 'GET'
@@ -45,5 +56,9 @@ const ENDPOINTS = {
     uri: '/createProduct',
     method: 'POST'
   },
+  [DEL_CATALOG_ITEM]: {
+    uri: '/delCatalogItem',
+    method: 'POST'
+  }
 };
 export default ENDPOINTS;
