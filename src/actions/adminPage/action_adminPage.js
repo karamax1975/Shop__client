@@ -1,8 +1,12 @@
-import { ADMIN__RENDER_SECTION } from '../../reducers/Types';
+import { ADMIN__RENDER_SECTION, ADMIN__MODAL_WINDOW } from '../../reducers/Types';
 
-export function _selectSection(section) {
+export function _modalWindow(status) {
+  return { type: ADMIN__MODAL_WINDOW, payload: status }
+}
+
+export function _selectSection(typeString) {
   return {
     type: ADMIN__RENDER_SECTION,
-    payload: section
+    payload: typeString
   }
 }

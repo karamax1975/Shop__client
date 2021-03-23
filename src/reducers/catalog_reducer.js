@@ -8,6 +8,7 @@ import {
   CATALOG__CREATE_SUB_DIR,
   CATALOG__GET_SUB_ITEM,
   CATALOG__SELECTED_ITEM,
+  CATALOG__DEL_ITEM
 } from './Types';
 
 
@@ -17,13 +18,27 @@ const initialStore = {
   name: '',
   createSubDir: false,
   selectedID: 'root',
-  rootAddItem: false
+  rootAddItem: false,
 }
 
 export default function catalogStore(state = initialStore, action) {
   let { rootCatalog, allCategories } = state;
   switch (action.type) {
 
+    case CATALOG__DEL_ITEM:
+      let parent = null
+      const newArrAllCategories = allCategories.filter(item => {
+        if (item._id !== action.payload) return item;
+        else if (item.parent) parent = item.parent.id;
+      });
+      const newRoot = newArrAllCategories.filter(item => !item.parent);
+      // если удаленная директория была поддиректорией
+      if (parent) {
+        const newArrSelectedDir = state[parent].filter(item => item._id !== action.payload)
+        return { ...state, selectedID: 'root', allCategories: newArrAllCategories, [parent]: newArrSelectedDir }
+      }
+      else return { ...state, allCategories: newArrAllCategories, rootCatalog: newRoot }
+    // ----------------------------------------------------
     case CATALOG__SELECTED_ITEM:
       let selectedItemFlag = false
       const newArrSelected = allCategories.map(item => {
@@ -88,7 +103,7 @@ export default function catalogStore(state = initialStore, action) {
           else item.addNewItem = false
           return item
         });
-        return { ...state, allCatalog: newArrRemoveAddItem }
+        return { ...state, allCategories: newArrRemoveAddItem }
       }
 
     case CATALOG__GET_LIST_ITEM:

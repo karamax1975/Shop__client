@@ -7,7 +7,8 @@ import { _getUserId } from '../../actions/user/user_actions';
 import AdminHeader from '../../Components/Desktop/adminTemplate/header/header';
 import AdminToolsNavbar from '../../Components/Desktop/adminTemplate/adminToolsNavbar'
 import ListProducts from '../../pages/adminPages/listProducts';
-import Catalog from './catalog'
+import Catalog from './catalog';
+import ModalWindow from '../../Components/Desktop/control/modalWindow'
 
 
 
@@ -18,7 +19,7 @@ function Admin() {
   const history = useHistory();
 
   const [cookies, removeCookie] = useCookies(['userData']);
-  const { renderSection } = useSelector(state => state.adminPage);
+  const { renderSection, modalWindow } = useSelector(state => state.adminPage);
 
   async function auth(controller, cookies) {
     const response = await fetch('api/login', {
@@ -71,7 +72,7 @@ function Admin() {
   return (
     cookies.name
       ?
-      <div>
+      <div className='root-content' style={{ position: 'relative' }}>
         <AdminHeader />
         <div className='container'>
           <div className='row'>
@@ -83,6 +84,12 @@ function Admin() {
             </div>
           </div>
         </div>
+        {modalWindow
+          ? <ModalWindow
+            type={modalWindow}
+          />
+          : null
+        }
       </div>
       : <Redirect to='/' />
 

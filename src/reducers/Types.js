@@ -1,5 +1,6 @@
 
-export const ADMIN__RENDER_SECTION = 'ADMIN/RENDER_SECTION'
+export const ADMIN__RENDER_SECTION = 'ADMIN/RENDER_SECTION';
+export const ADMIN__MODAL_WINDOW = 'ADMIN__MODAL_WINDOW';
 // --------------------------------------------------------
 export const AUTHORIZATION = 'ADMIN/AUTHORIZATION';
 

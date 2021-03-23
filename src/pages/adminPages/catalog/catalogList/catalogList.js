@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import './catalogList.css';
-import { _eventAddItem, _setNameDir, _eventRemoveAddItem, _createCatalogItem, _delItem } from '../../../../actions/catalog/catalog_action';
+import { _eventAddItem, _setNameDir, _eventRemoveAddItem, _createCatalogItem } from '../../../../actions/catalog/catalog_action';
+import { _modalWindow } from '../../../../actions/adminPage/action_adminPage';
 import InputUniversal from '../../../../Components/Desktop/Inputs/inputUniversal';
 import CatalogItem from './catalogItem';
 import SmallButton from '../../../../Components/Desktop/Buttons/smallButton'
@@ -35,7 +36,12 @@ export default function CatalogList({ data }) {
               <path d="M0.993164 6.92287H15.49" />
             </svg>
           </button>
-          <button type='button' onClick={() => dispatch(_delItem(selectedID))}>
+          {/* <button type='button' onClick={() => dispatch(_delItem(selectedID))}> */}
+          <button type='button' onClick={() => {
+            if (selectedID !== 'root')
+              dispatch(_modalWindow('DEL_CATALOG_ITEM'))
+          }}
+          >
             <svg width="21" height="20" viewBox="0 0 21 20" fill="none">
               <path d="M5.38477 3.60843V1.73853H13.3344V3.60843" />
               <rect x="1.55371" y="3.83424" width="15.6111" height="3.52119" />

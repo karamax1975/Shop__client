@@ -8,19 +8,19 @@ import {
   CATALOG__CREATE_SUB_DIR,
   CATALOG__GET_SUB_ITEM,
   CATALOG__SELECTED_ITEM,
-  CATALOG__DEL_ITEM
+  CATALOG__DEL_ITEM,
 } from '../../reducers/Types'
 import { CREATE_CATALOG_ITEM, GET_LIST_CATALOG_ITEM, DEL_CATALOG_ITEM } from '../../api/endpoint';
 import API from '../../api/api'
 
+
 export function _delItem(id) {
   return async dispatch => {
-    if (id !== 'root') {
-      const response = await API.fetch(DEL_CATALOG_ITEM, { id });
-      if (response.status)
-        dispatch({ type: CATALOG__DEL_ITEM, payload: response.result })
-    }
+    const response = await API.fetch(DEL_CATALOG_ITEM, { id });
+    if (response.status)
+      dispatch({ type: CATALOG__DEL_ITEM, payload: id })
   }
+
 }
 
 export function _selectedItem(id) {
