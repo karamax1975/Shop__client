@@ -61,6 +61,11 @@ export function _createCatalogItem(obj) {
       dispatch({ type: CATALOG__CREATE_ITEM, payload: { response: response.result, parent } })
       // очищаю введенное юзером имя раздела
       dispatch({ type: CATALOG__SET_NAME_DIR, payload: '' })
+      // открываю директорию, в которой создается субдиректория
+      // если директория, в которой создается, не корневая
+      if (parent)
+        dispatch({ type: CATALOG__SUB_DIR, payload: { id: parent.id, status: true } })
+
     }
 
   }

@@ -37,7 +37,7 @@ export default function catalogStore(state = initialStore, action) {
         const newArrSelectedDir = state[parent].filter(item => item._id !== action.payload)
         return { ...state, selectedID: 'root', allCategories: newArrAllCategories, [parent]: newArrSelectedDir }
       }
-      else return { ...state, allCategories: newArrAllCategories, rootCatalog: newRoot }
+      else return { ...state, selectedID: 'root', allCategories: newArrAllCategories, rootCatalog: newRoot }
     // ----------------------------------------------------
     case CATALOG__SELECTED_ITEM:
       let selectedItemFlag = false
