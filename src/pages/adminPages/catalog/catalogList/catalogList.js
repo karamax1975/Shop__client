@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import './catalogList.css';
-import { _eventAddItem, _setNameDir, _eventRemoveAddItem, _createCatalogItem } from '../../../../actions/catalog/catalog_action';
+import { _eventAddItem, _setNameDir, _eventRemoveAddItem, _createCatalogItem, _editItem } from '../../../../actions/catalog/catalog_action';
 import { _modalWindow } from '../../../../actions/adminPage/action_adminPage';
 import InputUniversal from '../../../../Components/Desktop/Inputs/inputUniversal';
 import CatalogItem from './catalogItem';
@@ -28,6 +28,13 @@ export default function CatalogList({ data }) {
       <div className='CatalogList__header'>
         <h5>Sections</h5>
         <div className='CatalogList__header__control'>
+          <button type='button' onClick={() => dispatch(_editItem(selectedID))}>
+            <svg width="20" height="19" viewBox="0 0 20 19" fill="none">
+              <path d="M18.332 4.73984L15.8721 2.27994C15.6768 2.08468 15.3603 2.08468 15.165 2.27995L6.9243 10.5206L10.0913 13.6876L18.332 5.44695C18.5273 5.25168 18.5273 4.9351 18.332 4.73984Z" />
+              <path d="M6.58012 10.519L6.57955 13.9798L10.1248 13.9798" />
+              <path d="M9.53139 3.45238L7.53139 1.57002L1.37148 1.57002L1.37109 18.093H16.0621V13.0001" />
+            </svg>
+          </button>
           <button type='button' onClick={() => dispatch(_eventAddItem(selectedID, !rootAddItem))}>
             <svg width="22" height="24" viewBox="0 0 22 24" fill="none" >
               <path d="M15.5508 13.0618L15.5508 23.0618" />
@@ -36,7 +43,6 @@ export default function CatalogList({ data }) {
               <path d="M0.993164 6.92287H15.49" />
             </svg>
           </button>
-          {/* <button type='button' onClick={() => dispatch(_delItem(selectedID))}> */}
           <button type='button' onClick={() => {
             if (selectedID !== 'root')
               dispatch(_modalWindow('DEL_CATALOG_ITEM'))

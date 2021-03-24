@@ -10,7 +10,6 @@ class Api {
 
   async generateRequest(controller, endpoint, data) {
     const { method, uri } = this.endpoint[endpoint];
-    console.log();
     if (method === 'GET') {
       return fetch(`${API_URL}${uri}`, {
         method,

@@ -8,7 +8,11 @@ import {
   CATALOG__CREATE_SUB_DIR,
   CATALOG__GET_SUB_ITEM,
   CATALOG__SELECTED_ITEM,
-  CATALOG__DEL_ITEM
+  CATALOG__DEL_ITEM,
+  CATALOG__EDIT_ITEM,
+  CATALOG__CANCEL_EDIT_ITEM,
+  CATALOG__NEW_NAME__EDIT_ITEM,
+  CATALOG__RENAME_EDIT_ITEM
 } from './Types';
 
 
@@ -19,12 +23,70 @@ const initialStore = {
   createSubDir: false,
   selectedID: 'root',
   rootAddItem: false,
+  editName: ''
 }
 
 export default function catalogStore(state = initialStore, action) {
   let { rootCatalog, allCategories } = state;
   switch (action.type) {
+    // -----------------------------------------------------------
+    //rename editable Item
+    case CATALOG__RENAME_EDIT_ITEM:
+      let editableParent = null;
+      const arrEditableAll = allCategories.map(item => {
+        if (item._id === action.payload.id) {
+          item.name = action.payload.newName;
+          if (item.parent) {
+            editableParent = item.parent.id
+          }
+        }
+        return item
+      })
+      /// если редактируемая директория не корневая
+      if (!editableParent) {
+        const newRootDir = rootCatalog.map(item => {
+          if (item._id === action.payload.id) {
+            item.name = action.payload.newName;
+          }
+          return item
+        })
+        return { ...state, rootCatalog: newRootDir, allCategories: arrEditableAll }
+      }
+      else {
+        return { ...state, allCategories: arrEditableAll }
+      }
+    // усли директория, которую переименовывают, корневая
 
+    // -----------------------------------------------------------
+    //enter new name Category Item
+    case CATALOG__NEW_NAME__EDIT_ITEM:
+      return { ...state, editName: action.payload }
+    //------------------------------------------------------------
+    // cancel Edit Item 
+    // clear newName Category Item
+    case CATALOG__CANCEL_EDIT_ITEM:
+      allCategories.forEach(item => {
+        if (item._id === action.payload) {
+          item.edit = false;
+        }
+      })
+      return { ...state, editName: '' }
+
+    // -----------------------------------------------------------
+    // add flag "Edit" in select object
+    case CATALOG__EDIT_ITEM:
+      const arrEdit = allCategories.map(item => {
+        if (item._id === action.payload) {
+          item.edit = true;
+          return item
+        }
+        else {
+          item.edit = false
+          return item
+        }
+      })
+      return { ...state, allCategories: arrEdit }
+    //----------------------------------------------------- 
     case CATALOG__DEL_ITEM:
       let parent = null
       const newArrAllCategories = allCategories.filter(item => {

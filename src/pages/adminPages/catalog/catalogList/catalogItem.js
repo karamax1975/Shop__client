@@ -1,13 +1,24 @@
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { _subDir, _createSubDir, _setNameDir, _createCatalogItem, _getSubDir, _eventRemoveAddItem, _selectedItem } from '../../../../actions/catalog/catalog_action';
+import {
+  _subDir,
+  _createSubDir,
+  _setNameDir,
+  _createCatalogItem,
+  _getSubDir,
+  _eventRemoveAddItem,
+  _selectedItem,
+  _cancelEditItem,
+  _setValueEditableItem,
+  _renameItem
+} from '../../../../actions/catalog/catalog_action';
 import InputUniversal from '../../../../Components/Desktop/Inputs/inputUniversal';
 import SmallButton from '../../../../Components/Desktop/Buttons/smallButton';
 import './catalogItem.css'
 
 export default function CatalogItem({ data, padding }) {
   const dispatch = useDispatch();
-  const { name } = useSelector(state => state.catalogStore);
+  const { name, editName } = useSelector(state => state.catalogStore);
   const catalogStore = useSelector(state => state.catalogStore);
   const [alert, setAlert] = useState(false);
 
@@ -36,7 +47,20 @@ export default function CatalogItem({ data, padding }) {
             <path d="M14.79 1.60529L7.99997 8.39502L1.21023 1.60529" stroke="#31CED8" strokeWidth="1.5" strokeLinecap="round" />
           </svg>
         </div>
-        <span>{data.name}</span>
+        {
+          data.edit
+            ? <div>
+              <input type='text' placeholder={data.name} value={editName} onChange={(e) => dispatch(_setValueEditableItem(e.target.value))} />
+              <button type="button"
+                onClick={() => dispatch(_cancelEditItem(data._id))}
+              >C</button>
+              <button type="button"
+                onClick={() => dispatch(_renameItem(data._id, editName))}
+              >Ok</button>
+            </div>
+            : <span>{data.name}</span>
+        }
+
       </div>
       {data.addNewItem
         ? <div className={`CatalogItem_input ${alert ? 'alert' : ''}`} >

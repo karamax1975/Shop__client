@@ -9,9 +9,14 @@ export const UPLOAD_IMG = 'UPLOAD_IMG';
 export const CREATE_PRODUCT = 'CREATE_PRODUCT';
 export const CREATE_CATALOG_ITEM = 'CREATE_CATALOG_ITEM';
 export const GET_LIST_CATALOG_ITEM = 'GET_LIST_CATALOG_ITEM';
-export const DEL_CATALOG_ITEM = 'DEL_CATALOG_ITEM'
+export const DEL_CATALOG_ITEM = 'DEL_CATALOG_ITEM';
+export const RENAME_CATALOG_ITEM = 'RENAME_CATALOG_ITEM'
 
 const ENDPOINTS = {
+  [RENAME_CATALOG_ITEM]: {
+    uri: '/renameCatalogItem',
+    method: 'PUT'
+  },
   [GET_LIST_CATALOG_ITEM]: {
     uri: '/getCatalogList',
     method: 'GET'

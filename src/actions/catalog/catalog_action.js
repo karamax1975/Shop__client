@@ -9,10 +9,36 @@ import {
   CATALOG__GET_SUB_ITEM,
   CATALOG__SELECTED_ITEM,
   CATALOG__DEL_ITEM,
+  CATALOG__EDIT_ITEM,
+  CATALOG__CANCEL_EDIT_ITEM,
+  CATALOG__NEW_NAME__EDIT_ITEM,
+  CATALOG__RENAME_EDIT_ITEM
 } from '../../reducers/Types'
-import { CREATE_CATALOG_ITEM, GET_LIST_CATALOG_ITEM, DEL_CATALOG_ITEM } from '../../api/endpoint';
+import { CREATE_CATALOG_ITEM, GET_LIST_CATALOG_ITEM, DEL_CATALOG_ITEM, RENAME_CATALOG_ITEM } from '../../api/endpoint';
 import API from '../../api/api'
 
+export function _renameItem(id, newName) {
+
+  return async dispatch => {
+    const response = await API.fetch(RENAME_CATALOG_ITEM, { id, newName })
+    if (response.status) {
+      dispatch({ type: CATALOG__RENAME_EDIT_ITEM, payload: { id, newName } })
+      dispatch({ type: CATALOG__CANCEL_EDIT_ITEM, payload: id })
+    }
+  }
+}
+
+export function _setValueEditableItem(value) {
+  return { type: CATALOG__NEW_NAME__EDIT_ITEM, payload: value }
+}
+
+export function _cancelEditItem(id) {
+  return { type: CATALOG__CANCEL_EDIT_ITEM, payload: id }
+}
+
+export function _editItem(id) {
+  return { type: CATALOG__EDIT_ITEM, payload: id }
+}
 
 export function _delItem(id) {
   return async dispatch => {
