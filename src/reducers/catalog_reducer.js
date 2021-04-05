@@ -12,7 +12,10 @@ import {
   CATALOG__EDIT_ITEM,
   CATALOG__CANCEL_EDIT_ITEM,
   CATALOG__NEW_NAME__EDIT_ITEM,
-  CATALOG__RENAME_EDIT_ITEM
+  CATALOG__RENAME_EDIT_ITEM,
+  // 
+  CATALOG__CREATE_PRODUCT,
+  CATALOG__EDIT_PRODUCT
 } from './Types';
 
 
@@ -23,12 +26,19 @@ const initialStore = {
   createSubDir: false,
   selectedID: 'root',
   rootAddItem: false,
-  editName: ''
+  editName: '',
+  event_CreateProduct: false,
+  event_EditProduct: false
 }
 
 export default function catalogStore(state = initialStore, action) {
   let { rootCatalog, allCategories } = state;
   switch (action.type) {
+    case CATALOG__EDIT_PRODUCT:
+      return { ...state, event_EditProduct: action.payload }
+    // -----------------------------------------------------------
+    case CATALOG__CREATE_PRODUCT:
+      return { ...state, event_CreateProduct: action.payload }
     // -----------------------------------------------------------
     //rename editable Item
     case CATALOG__RENAME_EDIT_ITEM:
@@ -128,10 +138,14 @@ export default function catalogStore(state = initialStore, action) {
     // -----------------------------
     case CATALOG__SUB_DIR:
       const mutationCategory = allCategories.map(item => {
-        if (item._id === action.payload.id) item.selected = !item.selected
+        if (item._id === action.payload) {
+          item.selected = !item.selected
+        }
         return item
       })
-      return { ...state, allCategories: mutationCategory }
+      const newRootArr = mutationCategory.filter(item => !item.parent);
+      const subDir = mutationCategory.filter(item => { if (item.parent) return item.parent.id === action.payload });
+      return { ...state, allCategories: mutationCategory, rootCatalog: newRootArr, [action.payload]: subDir }
 
     case CATALOG__EVENT_ADD_ITEM:
       // Создается корневая директория

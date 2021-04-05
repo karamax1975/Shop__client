@@ -1,18 +1,16 @@
 ul{
   padding-inline-start: 0;
 }
-/* .sub .CatalogItem__title{
-  padding-inline-start: 10px !important;
-} */
+
 .CatalogItem__title{
   display: flex;
   align-items: center;
-  padding: 4px 0;
+  height: 40px;
   cursor: pointer;
   user-select: none;
 }
 .CatalogItem__title.selected{
-  background: var(--gray2);
+  background: #F6F6F6;
 }
 .title-icon{
   width: 30px;
@@ -20,6 +18,7 @@ ul{
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-shrink:0;
   
 }
 .title-icon svg{
@@ -39,4 +38,54 @@ ul{
 }
 .CatalogItem_input input{
   border: none;
+}
+.CatalogItem_rename{
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.CatalogItem_rename button{
+  /* display: block; */
+  height: 40px;
+  width: 40px;
+  flex-shrink:0;
+  padding: 0;
+  border: none;
+  border-radius: 2px;
+  cursor: pointer;
+  background: var(--sea);
+  color: var(--white);
+  font-size: 14px;
+}
+.CatalogItem_rename button:focus{
+  outline: none;
+}
+.btn-rename-reset{
+  background: none !important;
+}
+.btn-rename-reset:hover svg{
+  stroke: var(--sea);
+}
+.btn-rename-reset svg{
+  stroke-width: 1.5px;
+  stroke-linecap: round;
+  stroke: #BDBDBD;
+}
+
+.CatalogItem_rename input{
+  border: none;
+  padding: 0;
+  height: 39px;
+  outline:none;
+  background: none;
+  width: 100%;
+
+}
+.CatalogItem_rename input:focus{
+  border: none;
+}
+.CatalogItem_rename input::placeholder{
+  position: relative;
+  top: -1px;
 }

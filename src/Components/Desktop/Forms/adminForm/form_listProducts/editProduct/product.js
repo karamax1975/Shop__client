@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { config } from '../../../../../../config'
@@ -15,7 +15,8 @@ import './product.css';
 
 export default function ItemProduct({ data, feedback }) {
 
-  const { template, product } = useSelector(state => state.productStore)
+
+  const { template } = useSelector(state => state.productStore)
   const dispatch = useDispatch()
   return (
     <div className='product'>

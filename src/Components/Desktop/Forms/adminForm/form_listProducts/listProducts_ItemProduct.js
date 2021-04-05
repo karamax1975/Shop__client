@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux'
 import './listProductsItemProduct.css';
 import Checkbox from '../../../Inputs/checkbox';
 import EditProduct from './editProduct/editProduct';
-import { _warningDelete, _changeActivity } from '../../../../../actions/listProduct_action';
+import { _warningDelete, _changeActivity, _selectProduct, _updateListProduct } from '../../../../../actions/listProduct_action';
 import { _loadProduct } from '../../../../../actions/product/action_addProduct'
 
 export default function ListProductsItemProduct({ data }) {
@@ -13,7 +13,7 @@ export default function ListProductsItemProduct({ data }) {
 
   const dispatch = useDispatch()
   const [focusProduct, setFocusProduct] = useState(false);
-  const [flagEditProduct, setFlagEditProduct] = useState(false)
+  const [flagEditProduct, setFlagEditProduct] = useState(false);
 
   const itemProductRef = useRef();
 
@@ -37,8 +37,11 @@ export default function ListProductsItemProduct({ data }) {
 
 
   return (
-    <div className={`listProducts__itemProduct ${focusProduct ? 'active' : ''}`}
-      onClick={() => setFocusProduct(true)}
+    <div className={`listProducts__itemProduct ${data.selected ? 'active' : ''}`}
+      onClick={() => {
+        dispatch(_selectProduct(data._id))
+        setFocusProduct(true)
+      }}
       ref={itemProductRef}
     >
       {
@@ -58,13 +61,13 @@ export default function ListProductsItemProduct({ data }) {
               <p>{data.name}</p>
             </div>
             <div className="itemProduct__brand"><p>{data.brand}</p></div>
-            <div className="itemProduct__category">{data.category.map(item => <p key={item._id}>{item.name}</p>)}</div>
+            <div className="itemProduct__category"><p>{data.category.name}</p></div>
             <div className="itemProduct__prise"><p>{`€`} {data.price}</p></div>
             <div className="itemProduct__date">
               <span>{`${date.slice(0, 10)}`}</span>
               <span>{`${date.slice(11, 16)}`}</span>
             </div>
-            {focusProduct
+            {focusProduct && data.selected
               ? <div className={`itemProduct__focus`}>
                 <button type='button' className='focus__editProduct'
                   onClick={edit}
@@ -83,6 +86,8 @@ export default function ListProductsItemProduct({ data }) {
           </div>
           : <EditProduct
             close={(status) => setFlagEditProduct(status)}
+            data={data}
+            update={(newProduct) => dispatch(_updateListProduct(newProduct))}
           />
       }
     </div>

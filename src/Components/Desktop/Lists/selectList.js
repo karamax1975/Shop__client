@@ -8,30 +8,6 @@ export default function SelectList({ title, userData, list, action, externalSign
   const [selectTitle, setSelectTitle] = useState(title)
   const [flagDrop, setFlagDrop] = useState(false);
 
-
-  const firstUserPromo = useCallback((array, data) => {
-    let find = null;
-    array.forEach(item => {
-      if (typeof (data) === 'object') {
-        if (item._id === data[0]) {
-          find = item.name;
-        }
-      }
-      else {
-        if (item._id === data) find = item.name;
-      }
-    })
-    return find
-  })
-
-  useEffect(() => {
-    const first = firstUserPromo(list, userData)
-    if (first)
-      setSelectTitle(first)
-  }, [])
-
-
-
   return (
     // для того, чтобы клик по объекту не вызывал отмену чекбокса вешаю на него e.preventDefault()
     <div className='product_category__select' onClick={(e) => e.preventDefault()}>
@@ -54,7 +30,7 @@ export default function SelectList({ title, userData, list, action, externalSign
           {list.map(item =>
             <li key={item._id}
               onClick={() => {
-                action(item._id)
+                action(item)
                 setSelectTitle(item.name)
                 setFlagDrop(false)
                 externalSignal(true, item.name)

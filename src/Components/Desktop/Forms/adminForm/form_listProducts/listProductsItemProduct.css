@@ -44,7 +44,7 @@
   width: 21%;
 }
 .itemProduct__brand{
-  width: 17%;
+  width: 14%;
 }
 .itemProduct__prise{
   width: 8%;
@@ -55,7 +55,7 @@
   font-size: 16px;
 }
 .itemProduct__category{
-  width: 14%;
+  width: 17%;
 }
 .itemProduct__date span{
   display: block;

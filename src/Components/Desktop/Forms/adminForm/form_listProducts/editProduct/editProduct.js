@@ -4,14 +4,12 @@ import { useDispatch, useSelector } from 'react-redux'
 import Button from '../../../../Buttons/button';
 import './editProduct.css'
 import ComponentProduct from './product';
-import { _cancelEdit, _updateProduct } from '../../../../../../actions/product/action_addProduct'
-import { _getListProducts } from '../../../../../../actions/listProduct_action';
+import { _cancelEdit, _updateProduct, _loadProduct } from '../../../../../../actions/product/action_addProduct'
 
 
-export default function EditProduct({ close }) {
+export default function EditProduct({ close, data, update }) {
 
   const dispatch = useDispatch();
-
   const { product, uploadImg, arrDelImage } = useSelector(state => state.productStore)
 
   const refForm = useRef()
@@ -21,26 +19,17 @@ export default function EditProduct({ close }) {
 
   // при запуске компонента формирую объект состояния валидации форм и заполняю его неактивным статусом
   const initCheck = useCallback(() => {
-    const arrKey = Object.keys(product);
-    arrKey.forEach(item => { setFeedback({ ...feedback }, feedback[item] = true) })
+    const arrKey = Object.keys(data);
+    arrKey.forEach(item => {
+      setFeedback({ ...feedback }, feedback[item] = true)
+    })
   }, [])
 
 
-  function onBlur(e) {
-    if (refForm.current !== null && !refForm.current.contains(e.target)) {
-      closeEdit()
-    }
-  }
-
-
   useEffect(() => {
+    dispatch(_loadProduct(data))
     initCheck()
     // document.body.addEventListener('click', onBlur)
-    return () => {
-      // при закрытии компонента обновляю список продуктов
-      // document.body.removeEventListener('click', onBlur);
-      dispatch(_getListProducts())
-    }
   }, [])
 
 
@@ -59,20 +48,17 @@ export default function EditProduct({ close }) {
   function checkForm(obj) {
     let rezult = null;
     for (let key in obj) {
-      if (obj[key]) {
-        rezult = true
-      }
-      else {
-        return false
-      }
+      if (key !== '__v')
+        if (obj[key]) {
+          rezult = true
+        }
+        else {
+          return false
+        }
     }
     return rezult
   }
 
-  function closeEdit() {
-    dispatch(_cancelEdit(uploadImg))
-    close(false)
-  }
 
   return (
     <form ref={refForm}>
@@ -83,10 +69,10 @@ export default function EditProduct({ close }) {
         <Button
           text='Change'
           style='sea'
-          action={() => {
+          action={async () => {
             checkInputs(product, setFeedback)
             if (checkForm(feedback)) {
-              dispatch(_updateProduct(product))
+              await dispatch(_updateProduct(product, update))
               dispatch(_cancelEdit(arrDelImage))
               close(false)
             }
@@ -98,7 +84,10 @@ export default function EditProduct({ close }) {
         <Button
           text='Cancel'
           style='gray'
-          action={closeEdit}
+          action={() => {
+            dispatch(_cancelEdit(uploadImg))
+            close(false)
+          }}
           type='button'
         />
       </div>

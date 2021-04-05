@@ -3,18 +3,23 @@ import React, { useEffect, useState } from 'react';
 import './promo.css';
 import Checkbox from '../../../../Inputs/checkbox'
 import InputUniversal from '../../../../Inputs/inputUniversal'
-import { _promo_addNewDiscount, _promo_SetDiscount, _selectPromo, _delItemPromo } from '../../../../../../actions/product/action_addProduct'
+import { _delItemPromo, _addNewPromo, _promo_SetDiscount } from '../../../../../../actions/product/action_addProduct'
 import { useDispatch, useSelector } from 'react-redux';
 import SelectList from '../../../../Lists/selectList'
 
 export default function Promo({ value }) {
 
+
   const [checkboxDiscount, setCheckboxDiscount] = useState(value.discount ?? false);
   const [checkboxPromo, setCheckboxPromo] = useState(value.promo && value.promo.length ? true : false);
-  const { listPromo } = useSelector(state => state.productStore)
-  const { promo } = value;
+  const { listPromo } = useSelector(state => state.productStore);
+  const { listChoice } = useSelector(state => state.choiceStore)
+  let { promo, discount } = value;
   const [userSelectPromo, setUserSelectPromo] = useState([])
 
+  const dispatch = useDispatch()
+
+  // console.log('///-----------------', listChoice);
 
   function initUserPromo(listPromo, userPromo) {
     const select = [];
@@ -31,17 +36,7 @@ export default function Promo({ value }) {
       setUserSelectPromo(initUserPromo(listPromo, promo))
   }, [listPromo])
 
-  const dispatch = useDispatch()
 
-
-
-  useEffect(() => {
-    dispatch(_promo_addNewDiscount('discount', checkboxDiscount))
-  }, [])
-
-  useEffect(() => {
-    dispatch(_promo_addNewDiscount('promo', checkboxPromo))
-  }, [])
 
   return (
     <div className='Promo'>
@@ -54,13 +49,9 @@ export default function Promo({ value }) {
         <h5>Discounts:</h5>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <InputUniversal
-            value={value.discount = value.discount ?? ''}
+            value={discount = discount ?? ''}
             action={(number) => {
-              if (number) {
-                setCheckboxDiscount(true)
-                dispatch(_promo_SetDiscount(number))
-              }
-              else setCheckboxDiscount(false)
+              dispatch(_promo_SetDiscount(number))
 
             }}
           />
@@ -82,31 +73,19 @@ export default function Promo({ value }) {
         />
         <div className='Promo_label__userSelect'>
           <p>Selected:</p>
-          {userSelectPromo.map((item, index) => {
+          {promo.map(item => {
             return (
               <p className='userSelect__item'
-                key={index}
-                onClick={(e) => {
-                  e.preventDefault();
-                  setUserSelectPromo((userSelectPromo) => {
-                    return userSelectPromo.filter(elem => elem !== item);
-                  })
-                  dispatch(_delItemPromo(item))
-                  if (!index > 0)
-                    setCheckboxPromo(false)
-
-                }}
-              >
-                {item}
-              </p>
+                key={item._id}
+                onClick={() => dispatch(_delItemPromo(item._id))}>{item.name}</p>
             )
           })}
         </div>
         <SelectList
           userData={userSelectPromo}
           title='Add choice:'
-          list={listPromo}
-          action={(id) => dispatch(_selectPromo(id))}
+          list={listChoice}
+          action={(obj) => dispatch(_addNewPromo(obj))}
           externalSignal={(signal, name) => {
             setCheckboxPromo(signal)
             let arr = userSelectPromo;

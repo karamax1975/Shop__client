@@ -35,6 +35,7 @@
 .btn-small.white svg{
   stroke: var(--sea);
   stroke-width:2px;
+  transition: all .3s;
 }
 .btn-small.sea svg{
   stroke: var(--white);
@@ -71,4 +72,4 @@
 }
 .btn-small.reset:hover >.btn-small__icon{
   border-color: var(--rubin);
-}
+} 

@@ -1,12 +1,15 @@
 import React from 'react';
 import { _delItem } from '../../../actions/catalog/catalog_action';
-import { _modalWindow } from '../../../actions/adminPage/action_adminPage'
+import { _modalWindow } from '../../../actions/adminPage/action_adminPage';
+import { _delProduct, _delProductInList } from '../../../actions/listProduct_action';
 import { useDispatch, useSelector } from 'react-redux';
 
 export default function ModalWindow({ type }) {
   let action = null;
   let text = null;
-  const { selectedID } = useSelector(state => state.catalogStore)
+  const { selectedID } = useSelector(state => state.catalogStore);
+  const { selectedProductID } = useSelector(state => state.listProductsStore);
+  const { id } = useSelector(state => state.userStore)
   const dispatch = useDispatch();
 
 
@@ -18,6 +21,14 @@ export default function ModalWindow({ type }) {
         dispatch(_modalWindow(null))
       }
       text = 'Are you sure you want to delete?'
+    // eslint-disable-next-line no-fallthrough
+    case 'DEL_PRODUCT_ITEM':
+      action = () => {
+        dispatch(_delProduct(selectedProductID, id))
+        dispatch(_delProductInList(selectedProductID))
+        dispatch(_modalWindow(null))
+      }
+      text = 'Are you sure you want to delete?';
     // eslint-disable-next-line no-fallthrough
     default: break
 

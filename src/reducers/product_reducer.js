@@ -6,11 +6,7 @@ import {
   EDIT_PRODUCT__LOAD_PRODUCT,
   EDIT_PRODUCT__EDIT,
   EDIT_PRODUCT__PRELOADER_IMG,
-  EDIT_PRODUCT__FLAG_CATEGORY,
   EDIT_PRODUCT__LOAD_CATEGORY,
-  EDIT_PRODUCT__CATEGORY_DROP,
-  EDIT_PRODUCT__ADD_NAME_NEW_CATEGORY,
-  EDIT_PRODUCT__ADD_NEW_CATEGORY,
   EDIT_PRODUCT__ADD_NEW_IMG_GALERY_PREVIEW,
   EDIT_PRODUCT__GALERY_DELETE_IMG,
   EDIT_PRODUCT__ADD_DETAIL,
@@ -19,12 +15,14 @@ import {
   EDIT_PRODUCT__DELETE_DETAIL,
   EDIT_PRODUCT__ADD_NEW_PROMO,
   EDIT_PRODUCT__PROMO_SET_DISCOUNT,
-  EDIT_PRODUCT__LOAD_LIST_PROMO,
-  EDIT_PRODUCT__SELECT_PROMO,
   EDIT_PRODUCT__DEL_ITEM_PROMO,
   EDIT_PRODUCT__CANCEL_EDIT,
   EDIT_PRODUCT__UPDATE_PRODUCT,
-  EDIT_PRODUCT__ADD_PREVIEW_IMG
+  EDIT_PRODUCT__ADD_PREVIEW_IMG,
+  EDIT_PRODUCT__LOAD_LIST_CATEGORY,
+  EDIT_PRODUCT__TOGGLE_LIST_CATEGORY,
+  EDIT_PRODUCT__OPEN_ITEM_CATEGORY,
+  EDIT_PRODUCT__SELECTED_ITEM_CATEGORY
 }
   from './Types';
 
@@ -32,8 +30,6 @@ import { modelProduct, template } from '../config';
 
 
 const initialStore = {
-  productName: null,
-  renderForm: false,
   productCreateAlert: null,
   categoryID: null,
   previewImgUrl: null,
@@ -44,21 +40,57 @@ const initialStore = {
   updateProduct: false,
   product: new modelProduct(),
   preloader: false,
-  flagCategory: false,
-  listCategory: [],
   uploadImg: [],
-  categoryDrop: false,
-  nameNewCategory: '',
   arrDelImage: [],
   newDetails: { name: '', description: '' },
-  listPromo: []
+  // 
+  listCatalog: [],
+  rootCatalog: [],
+  flagToggleCatalog: false,
+  newProduct: null
 }
 
 
 
 export default function productStore(state = initialStore, action) {
-  const { product } = state;
+  const { product, listCatalog } = state;
+  const { promo } = product.promotion;
   switch (action.type) {
+    //----------------------------------------------------
+    case EDIT_PRODUCT__SELECTED_ITEM_CATEGORY:
+      let selectName = null;
+      let selectID = null;
+      const selectedCategory = listCatalog.map(item => {
+        if (item._id === action.payload.id) {
+          item.select = !item.select;
+          selectName = item.select ? action.payload.name : null;
+          selectID = item.select ? action.payload.id : null;
+        }
+        else item.select = false
+        return item
+      })
+      product.category.name = selectName;
+      product.category.id = selectID;
+      const rootSelected = selectedCategory.filter(item => !item.parent);
+      return { ...state, rootCatalog: rootSelected, listCatalog: selectedCategory, product }
+    // ---------------------------------------------------
+    case EDIT_PRODUCT__OPEN_ITEM_CATEGORY:
+      const newListCatalog_open = listCatalog.map(item => {
+        if (item._id === action.payload) {
+          item.open = !item.open;
+        }
+        return item
+      })
+      const newRoot = newListCatalog_open.filter(item => !item.parent);
+      const subDir = newListCatalog_open.filter(item => { if (item.parent) return item.parent.id === action.payload });
+      return { ...state, rootCatalog: newRoot, listCatalog: newListCatalog_open, [action.payload]: subDir }
+    //----------------------------------------------------
+    case EDIT_PRODUCT__TOGGLE_LIST_CATEGORY:
+      return { ...state, flagToggleCatalog: !state.flagToggleCatalog }
+    // ---------------------------------------------------
+    case EDIT_PRODUCT__LOAD_LIST_CATEGORY:
+      const root = action.payload.filter(item => !item.parent)
+      return { ...state, listCatalog: action.payload, rootCatalog: root }
     // ----------------------------------------------------
     case EDIT_PRODUCT__ADD_PREVIEW_IMG:
       const { oldImg, newImg } = action.payload;
@@ -74,61 +106,64 @@ export default function productStore(state = initialStore, action) {
       return { ...state, arrDelImage: arrDelImg, product, uploadImg: upload }
     //----------------------------------------------------- 
     case EDIT_PRODUCT__UPDATE_PRODUCT:
-      return { ...state, updateProduct: true }
+      return { ...state, updateProduct: action.payload }
     // ----------------------------------------------------
     // очищаю стейт при нажатии на кнопку Cancel
     case EDIT_PRODUCT__CANCEL_EDIT:
       return {
         ...state,
         product: new modelProduct(),
-        listCategory: [],
+        listCatalog: [],
+        rootCatalog: [],
+        flagToggleCatalog: false,
         nameNewCategory: '',
         arrDelImage: [],
         newDetails: { name: '', description: '' },
-        listPromo: [],
         uploadImg: [],
-        updateProduct: false
+        updateProduct: false,
       }
     // --------------------------------------------------------
     //удаляет выбранный юзером елемент массива product.promotion.promo
     case EDIT_PRODUCT__DEL_ITEM_PROMO:
-      product.promotion.promo = product.promotion.promo.filter(item => item.name === action.payload)
-      return { ...state, product }
-    // ----------------------------------------------
-    case EDIT_PRODUCT__SELECT_PROMO:
-      // добавляю в массив product.promotion.promo выбранные элементы
-      // если объект пустой
-      product.promotion.promo = product.promotion.promo ?? []
-      product.promotion.promo.push(action.payload)
-      product.promotion.promo = Array.from(new Set(product.promotion.promo))
-      return { ...state, product }
-    // -----------------------------------------
-    case EDIT_PRODUCT__LOAD_LIST_PROMO:
-      // загружаю из базы массив promo
-      return { ...state, listPromo: action.payload }
+      return {
+        ...state,
+        product: {
+          ...product,
+          promotion: {
+            promo: promo.filter(item => item._id !== action.payload),
+            discount: product.promotion.discount
+          },
+        }
+      }
+
     // ------------------------------------------
     case EDIT_PRODUCT__PROMO_SET_DISCOUNT:
       /// ввод из поля discount раздела promo
-      product.promotion.discount = action.payload
-      return { ...state, product }
+      return { ...state, product: { ...product, promotion: { discount: action.payload, promo: product.promotion.promo } } }
     // ----------------------------------------
-    // на вход получаем имя элемента и его статус
+    // добавляю в массив product.promotion.promo выбранные элементы
+    //============================================================================
     case EDIT_PRODUCT__ADD_NEW_PROMO:
-      if (!action.payload.status) {
-        if (product.promotion[action.payload.name]) {
-          // product.promotion.promo - массив 
-          if (action.payload.name === 'promo') {
-            product.promotion.promo = []
+      let newArrPromo = [...promo, action.payload];
+      newArrPromo = newArrPromo.filter((item, index, arr) => arr.findIndex((obj) => obj._id === item._id) === index);
+      return {
+        ...state,
+        product: {
+          ...product,
+          promotion: {
+            promo: newArrPromo,
+            discount: product.promotion.discount
           }
-          else delete product.promotion[action.payload.name]
         }
       }
-      return { ...state, product }
+
     // -----------------------------------
     case EDIT_PRODUCT__DELETE_DETAIL:
       // в массиве detalis находится по индексу элемент который нужно удалить, и удаляется из массива
-      product.details = product.details.filter((_, index) => index !== action.payload)
-      return { ...state, product }
+      return {
+        ...state,
+        product: { ...product, details: product.details.filter((_, index) => index !== action.payload) }
+      }
     // ---------------------------------------
     case EDIT_PRODUCT__EDIT_DETAIL:
       // в массиве detalis находится по индексу объект, который нужно отредактировать и перезаписывается новым объектом, переданным из action
@@ -159,28 +194,10 @@ export default function productStore(state = initialStore, action) {
       product.previews = state.product.previews.filter(item => item !== action.payload);
       // добавляю в массив arrDelImage стертые картинки для удаления их на сервере при записи продукта в базу
       return { ...state, product, arrDelImage: state.arrDelImage.concat(action.payload) }
-    // -------------------------------------------------
-    //стейт имени новой категории в блоке category
-    case EDIT_PRODUCT__ADD_NAME_NEW_CATEGORY:
-      return { ...state, nameNewCategory: action.payload }
-    // ------------------------------------------------------------------------ 
-    // пушит в массив category приходящий из базы объект новой категории
-    case EDIT_PRODUCT__ADD_NEW_CATEGORY:
-      product.category = [action.payload]
-      return { ...state, listCategory: state.listCategory.concat(action.payload), product }
-    // ------------------------------------------------------------------------ 
-    // закрывает/открывает выпадающий список в блоке category
-    case EDIT_PRODUCT__CATEGORY_DROP:
-      const drop = !state.categoryDrop;
-      return { ...state, categoryDrop: drop }
     // ------------------------------------------------------------------------ 
     // загружает из API список категорий 
     case EDIT_PRODUCT__LOAD_CATEGORY:
       return { ...state, listCategory: action.payload }
-    // ------------------------------------------------------------------------ 
-    // переключение режимов работы блока category "список категорий/добавление новой категории"
-    case EDIT_PRODUCT__FLAG_CATEGORY:
-      return { ...state, flagCategory: action.payload }
     // ------------------------------------------------------------------------ 
     // показывает прелоадер при загрузке картинок
     case EDIT_PRODUCT__PRELOADER_IMG:
@@ -203,10 +220,8 @@ export default function productStore(state = initialStore, action) {
       return { ...state, productCreate: action.payload }
     // ----------------------------------------------------
     case ADD_PRODUCT__CONFIRM_FORM:
-      return { ...state }
+      return { ...state, newProduct: action.payload }
     //--------------------------------------------------
-    // case RENDER_FORM:
-    //   return { ...state, renderForm: action.payload };
     default:
       return state;
   }

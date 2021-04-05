@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import {
   _subDir,
@@ -22,9 +22,13 @@ export default function CatalogItem({ data, padding }) {
   const catalogStore = useSelector(state => state.catalogStore);
   const [alert, setAlert] = useState(false);
 
+  const inputRef = useRef();
 
-
-
+  useEffect(() => {
+    if (data.edit) {
+      inputRef.current.focus();
+    }
+  }, [data.edit])
 
   return (
     <li>
@@ -36,73 +40,78 @@ export default function CatalogItem({ data, padding }) {
           dispatch(_createSubDir(true))
         }}
       >
-        <div className='title-icon'
-          onClick={() => {
-            !data.addNewItem
-              ? dispatch(_subDir({ id: data._id, status: true }))
-              : dispatch(_subDir({ id: data._id, status: false }));
-          }}
-        >
+        <div className='title-icon' onClick={() => dispatch(_subDir(data._id))}>
           <svg width="16" height="10" viewBox="0 0 16 10" fill="none" >
             <path d="M14.79 1.60529L7.99997 8.39502L1.21023 1.60529" stroke="#31CED8" strokeWidth="1.5" strokeLinecap="round" />
           </svg>
         </div>
         {
           data.edit
-            ? <div>
-              <input type='text' placeholder={data.name} value={editName} onChange={(e) => dispatch(_setValueEditableItem(e.target.value))} />
-              <button type="button"
+            ? <div className="CatalogItem_rename">
+              <input type='text' placeholder={data.name} value={editName} onChange={(e) => dispatch(_setValueEditableItem(e.target.value))} ref={inputRef} />
+              <button type="button" className="btn-rename-reset"
                 onClick={() => dispatch(_cancelEditItem(data._id))}
-              >C</button>
+              >
+                <svg width="10" height="10" viewBox="0 0 10 10" fill="none" >
+                  <path d="M1.46484 1.52631L8.53591 8.59737" />
+                  <path d="M1.46484 8.59735L8.53591 1.52628" />
+                </svg>
+              </button>
               <button type="button"
                 onClick={() => dispatch(_renameItem(data._id, editName))}
               >Ok</button>
             </div>
-            : <span>{data.name}</span>
+            : <span
+              onClick={() => dispatch(_subDir(data._id))}
+            >
+              {data.name}
+            </span>
         }
 
       </div>
-      {data.addNewItem
-        ? <div className={`CatalogItem_input ${alert ? 'alert' : ''}`} >
-          <InputUniversal
-            value={name}
-            action={(name) => dispatch(_setNameDir(name))}
+      {
+        data.addNewItem
+          ? <div className={`CatalogItem_input ${alert ? 'alert' : ''}`} >
+            <InputUniversal
+              value={name}
+              action={(name) => dispatch(_setNameDir(name))}
 
-          />
-          <SmallButton
-            iconType='reset'
-            style='white'
-            action={() => {
-              dispatch(_eventRemoveAddItem(data._id, false))
-              dispatch(_setNameDir(''))
-            }}
-          />
-          <SmallButton
-            iconType='add'
-            style='sea'
-            action={() => {
-              if (name) {
-                setAlert(false)
-                dispatch(_createCatalogItem({ name, parent: { id: data._id, name: data.name } }))
+            />
+            <SmallButton
+              iconType='reset'
+              style='white'
+              action={() => {
                 dispatch(_eventRemoveAddItem(data._id, false))
-              }
-              else setAlert(true)
+                dispatch(_setNameDir(''))
+              }}
+            />
+            <SmallButton
+              iconType='add'
+              style='sea'
+              action={() => {
+                if (name) {
+                  setAlert(false)
+                  dispatch(_createCatalogItem({ name, parent: { id: data._id, name: data.name } }))
+                  dispatch(_eventRemoveAddItem(data._id, false))
+                }
+                else setAlert(true)
 
-            }}
-          />
-        </div>
-        : ''
+              }}
+            />
+          </div>
+          : ''
       }
-      {data.selected && catalogStore[data._id]
-        ? <ul className='sub'>
-          {catalogStore[data._id].map(item => <CatalogItem
-            key={item._id}
-            data={item}
-            padding={padding + 10}
-          />)}
-        </ul>
-        : null
+      {
+        data.selected && catalogStore[data._id]
+          ? <ul className='sub'>
+            {catalogStore[data._id].map(item => <CatalogItem
+              key={item._id}
+              data={item}
+              padding={padding + 10}
+            />)}
+          </ul>
+          : null
       }
-    </li>
+    </li >
   )
 }

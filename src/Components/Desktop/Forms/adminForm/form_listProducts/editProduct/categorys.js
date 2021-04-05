@@ -1,67 +1,57 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import './categorys.css';
 
 import SmallButton from '../../../../Buttons/smallButton';
-import InputUniversal from '../../../../Inputs/inputUniversal';
-import { _flagCategory, _categoryDrop, _editProduct, _addCategory, _addNameNewCategory, _loadCategory, _loadListPromo } from '../../../../../../actions/product/action_addProduct'
+import {
+  _loadListCategories,
+  _toggleListCategory
+} from '../../../../../../actions/product/action_addProduct';
+import { _loadListChoice } from '../../../../../../actions/choice_actions/choice_action'
+import CategoryItem from './categoryItem';
 
 export default function Categorys({ data }) {
-  const { listCategory, flagCategory, categoryDrop, nameNewCategory } = useSelector(state => state.productStore);
+  const { rootCatalog, flagToggleCatalog } = useSelector(state => state.productStore);
   const dispatch = useDispatch();
 
+  const margin = 0;
+
+  const dropRef = useRef();
+
+
   useEffect(() => {
-    dispatch(_loadCategory())
-    dispatch(_loadListPromo())
+    dispatch(_loadListChoice())
+    dispatch(_loadListCategories())
   }, [])
+
 
   return (
     <div className='product_category'>
-      {!flagCategory
-        ? <div className='product_category__select' style={{ width: "calc(100% + 16px)", marginLeft: "-15px", border: "none" }}>
-          <SmallButton
-            iconType='add'
-            style='selector-button white'
-            action={() => dispatch(_flagCategory(true))} />
-          <SmallButton
-            iconType='list'
-            style={`sea list-button ${categoryDrop ? 'active' : ''}`}
-            action={() => dispatch(_categoryDrop())}
-          />
-          <div className='title'>
-            <h5>{!nameNewCategory ? data[0].name : nameNewCategory}{!data[0].name ? 'Select category:' : ''}</h5>
-          </div>
-          {categoryDrop ?
-            <ul className='select__drop' style={{ width: "calc(100% + 16px)" }}>
-              {listCategory.map(item => {
-                return <li key={item._id}
-                  onClick={() => {
-                    dispatch(_editProduct('category', [{ _id: item._id, name: item.name }]))
-                    dispatch(_categoryDrop())
-                  }}
-                >
-                  <span
-                  >{item.name}</span>
-                </li>
-              })}
-            </ul>
-            : ''
-          }
+      <div className={`product_category__select fullsize ${data.name ? 'selected' : ''}`}>
+        <div className="title">
+          <h5 className='placeholder category'>{data.name ? data.name : 'Selected category:'}</h5>
         </div>
-        : <div className='product_category__input'>
-          <SmallButton
-            action={() => dispatch(_flagCategory(false))}
-            iconType='reset'
-            style='selector-button white'
-          />
-          <SmallButton
-            style='sea input'
-            name='OK'
-            action={() =>
-              dispatch(_addCategory(nameNewCategory))
-            }
-          />
-          <InputUniversal placeholder='Add new category' action={(name) => dispatch(_addNameNewCategory(name))} />
-        </div>}
+        <SmallButton
+          iconType='list'
+          style={`sea list-button ${flagToggleCatalog ? 'active' : ''}`}
+          action={() => dispatch(_toggleListCategory())}
+        />
+      </div>
+
+      {flagToggleCatalog
+        ? <ul className='product_category__drop' ref={dropRef}>
+          {rootCatalog.map(item => {
+            return (
+              <CategoryItem
+                key={item._id}
+                data={item}
+                margin={margin}
+              />
+            )
+          })}
+        </ul>
+        : null
+      }
     </div>
   )
 }

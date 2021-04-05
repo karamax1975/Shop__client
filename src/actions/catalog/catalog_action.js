@@ -12,13 +12,22 @@ import {
   CATALOG__EDIT_ITEM,
   CATALOG__CANCEL_EDIT_ITEM,
   CATALOG__NEW_NAME__EDIT_ITEM,
-  CATALOG__RENAME_EDIT_ITEM
+  CATALOG__RENAME_EDIT_ITEM,
+  CATALOG__CREATE_PRODUCT,
+  CATALOG__EDIT_PRODUCT
 } from '../../reducers/Types'
 import { CREATE_CATALOG_ITEM, GET_LIST_CATALOG_ITEM, DEL_CATALOG_ITEM, RENAME_CATALOG_ITEM } from '../../api/endpoint';
 import API from '../../api/api'
 
-export function _renameItem(id, newName) {
+export function _editProduct(idProduct) {
+  return { type: CATALOG__EDIT_PRODUCT, payload: idProduct }
+}
 
+export function _createProduct(idCategory) {
+  return { type: CATALOG__CREATE_PRODUCT, payload: idCategory }
+}
+
+export function _renameItem(id, newName) {
   return async dispatch => {
     const response = await API.fetch(RENAME_CATALOG_ITEM, { id, newName })
     if (response.status) {
@@ -67,8 +76,8 @@ export function _eventAddItem(id, status) {
 export function _eventRemoveAddItem(id, status) {
   return { type: CATALOG__REMOVE_ADD_ITEM, payload: { id, status } }
 }
-export function _subDir({ id, status }) {
-  return { type: CATALOG__SUB_DIR, payload: { id, status } }
+export function _subDir(id) {
+  return { type: CATALOG__SUB_DIR, payload: id }
 }
 
 export function _getListCatalogItem() {

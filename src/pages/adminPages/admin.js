@@ -6,7 +6,7 @@ import { connect, useDispatch, useSelector } from 'react-redux';
 import { _getUserId } from '../../actions/user/user_actions';
 import AdminHeader from '../../Components/Desktop/adminTemplate/header/header';
 import AdminToolsNavbar from '../../Components/Desktop/adminTemplate/adminToolsNavbar'
-import ListProducts from '../../pages/adminPages/listProducts';
+import ListProducts from '../../pages/adminPages/listProducts/listProducts';
 import Catalog from './catalog';
 import ModalWindow from '../../Components/Desktop/control/modalWindow'
 

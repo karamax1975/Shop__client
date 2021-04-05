@@ -7,7 +7,7 @@ export class modelProduct {
   name = '';
   description = '';
   brand = '';
-  category = [{ name: '' }];
+  category = {};
   price = '';
   preview = '';
   previews = [];
